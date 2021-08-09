@@ -1,30 +1,18 @@
 class Solution {
-    public boolean isPalindromic(String ss){
-        int i = 0;
-        int j = ss.length() - 1;
-        while(i<=j){
-            char ch1 = ss.charAt(i);
-            char ch2 = ss.charAt(j);
-            if(ch1 != ch2){
-                return false;
-            }else{
-                i++;
-                j--;
-            }
-        }
-        return true;
-    }
-    
+    int count = 0;
     public int countSubstrings(String s) {
-        int count = 0;
         for(int i=0;i<s.length();i++){
-            for(int j=i+1;j<=s.length();j++){
-                String ss = s.substring(i,j);
-                if(isPalindromic(ss) == true){
-                    count++;
-                }
-            }
+            isPalindrome(s,i,i);
+            isPalindrome(s,i,i+1);
         }
         return count;
+    }
+    
+    public void isPalindrome(String s, int i, int j){
+        while(i>=0 && j < s.length() && s.charAt(i) == s.charAt(j)){
+            count++;
+            i--;
+            j++;
+        }
     }
 }
