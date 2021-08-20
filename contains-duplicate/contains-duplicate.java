@@ -1,9 +1,9 @@
 class Solution {
     public boolean containsDuplicate(int[] nums) {
         
-        // hash table will help to identify whether an element has been previously              encountered in the array.
+        // hashSet will help to identify whether an element has been previously encountered in the array.
 
-        Set<Integer> duplicate = new HashSet<Integer>();
+        HashSet<Integer> duplicate = new HashSet<>();
         
         for(int num : nums){
             if(duplicate.contains(num))
