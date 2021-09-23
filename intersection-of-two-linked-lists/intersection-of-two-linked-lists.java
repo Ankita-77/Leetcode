@@ -11,45 +11,17 @@
  */
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
         
-        int len1 = length(headA);
-        int len2 = length(headB);
+        ListNode a = headA;
+        ListNode b = headB;
         
-        int diff = len2 > len1 ? len2-len1 : len1-len2;
-        
-        ListNode dummyA = headA;
-        ListNode dummyB = headB;
-        
-        for(int i=1; i<=diff; i++){
-            if(len1 > len2){
-                dummyA = dummyA.next;
-            }else{
-                dummyB= dummyB.next;
-            }
+        while(a != b){
+            // at the end of first iteration, reset the pointer to the                    head of another linked list
+            a = a == null ? headB : a.next;
+            b = b == null ? headA : b.next;
         }
         
-        while(dummyA != null){
-            
-            while(dummyA != dummyB){
-                dummyA = dummyA.next;
-                dummyB = dummyB.next;
-             }
-            
-            return dummyA;
-        }
-        
-        return null;
-    }
-    
-    public int length(ListNode head){
-        int len = 0;
-        ListNode curr = head;
-        
-        while(curr != null){
-            curr = curr.next;
-            len++;
-        }
-        
-        return len;
+        return a;
     }
 }
