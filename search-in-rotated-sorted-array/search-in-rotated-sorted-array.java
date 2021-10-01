@@ -29,7 +29,7 @@ class Solution {
         int start = 0, end = n-1;
         
         if(nums[0]<nums[n-1])
-        return nums[0];
+        return 0;
         
         while(start <= end){
             int mid = start + (end - start) / 2;
