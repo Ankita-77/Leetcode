@@ -10,24 +10,27 @@
  */
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null || head.next == null) return null;
         
-        ListNode slow = head, fast = head;
-        
-        //maintain distance
-        for(int i=1; i<=n; i++){
-            fast = fast.next;
-            
-            if (fast == null) return head.next;
+        ListNode curr = head;
+        int count = 0;
+        while(curr != null){
+            curr = curr.next;
+            count++;
         }
         
-        //Move fast to the end, maintaining the gap
-        while(fast.next != null){
-            slow = slow.next;
-            fast = fast.next;
+        if(n == count){
+            return head.next;
         }
         
-        // skip the desired node
-        slow.next = slow.next.next;
+        int k = count - n;
+        curr = head;
+        
+        while(k-- > 1){
+            curr = curr.next;
+        }
+        
+        curr.next = curr.next.next;
         
         return head;
     }
