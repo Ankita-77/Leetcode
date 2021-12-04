@@ -10,30 +10,28 @@
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
-        // edge cases
-        if(head == null || head.next == null || k == 0) return head;
+        if(head == null || k == 0) return head;
         
         ListNode curr = head;
-        // find length
-        int len = 1;  
+        int count = 1;
+        
         while(curr.next != null){
             curr = curr.next;
-            len++;
+            count++;
         }
         
-        // go till that node
         curr.next = head;
-        k = k % len;
-        k = len - k;
+        
+        k = k % count;
+        k = count - k;
         
         while(k-- > 0){
             curr = curr.next;
         }
         
-        // make the node head and break connection
-        head = curr.next;
+        ListNode nHead = curr.next;
         curr.next = null;
         
-        return head;
+        return nHead;
     }
 }
