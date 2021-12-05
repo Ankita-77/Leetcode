@@ -1,55 +1,25 @@
 class MyStack {
 
-    private Queue<Integer> mainQ = new LinkedList<Integer>();
-    private Queue<Integer> helperQ = new LinkedList<Integer>();
+    Queue<Integer> q = new LinkedList<>();
     
-    /** Push element x onto stack. */
     public void push(int x) {
-        mainQ.add(x);
+        q.add(x);
+        for(int i=0; i<q.size()-1; i++){
+            q.add(q.peek());
+            q.remove();
+        }
     }
     
-    /** Removes the element on top of the stack and returns that element. */
     public int pop() {
-        if(mainQ.size() == 0){
-             return -1;
-        }else{
-             while(mainQ.size() > 1){
-                helperQ.add(mainQ.remove());
-             }
-      
-             int val = mainQ.remove();
-      
-             while(helperQ.size() > 0){
-                 mainQ.add(helperQ.remove());
-             }
-      
-         return val;
-      }
+        return q.remove();
     }
     
-    /** Get the top element. */
     public int top() {
-        if(mainQ.size() == 0){
-             return -1;
-        }else{
-             while(mainQ.size() > 1){
-                helperQ.add(mainQ.remove());
-             }
-      
-             int val = mainQ.remove();
-             helperQ.add(val);
-            
-             while(helperQ.size() > 0){
-                 mainQ.add(helperQ.remove());
-             }
-      
-         return val;
-      }
+        return q.peek();
     }
     
-    /** Returns whether the stack is empty. */
     public boolean empty() {
-        if(mainQ.size() == 0){
+        if(q.size() == 0){
             return true;
         }else{
             return false;
