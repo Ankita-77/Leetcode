@@ -17,6 +17,6 @@ class Solution {
         return ans;
         
         // by using sorting O(nlogn) + O(n)
-        // no need to do sorting just find min and max
+        // no need to do sorting just find min and max O(n)
     }
 }
