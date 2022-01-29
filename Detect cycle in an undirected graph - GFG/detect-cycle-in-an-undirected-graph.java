@@ -30,7 +30,60 @@ class GFG {
     }
 }// } Driver Code Ends
 
+//  using bfs
+// class Solution {
+//     // Function to detect cycle in an undirected graph.
+//     public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+//         // Code here
+//         int visited[] = new int[V+1]; 
+//         for(int i=0; i<V; i++){
+//             if(visited[i] == 0){
+//                 if(checkCycle(i, adj, visited)){
+//                     return true;
+//                 }
+//             }
+//         }
+//         return false;
+//     }
+    
+    
+//     public boolean checkCycle(int s, ArrayList<ArrayList<Integer>> adj, int[] vis){
+//         Queue<Node> q = new LinkedList<>();
+//         q.add(new Node(s, -1));
+//         vis[s] = 1;
+        
+//         while(!q.isEmpty()){
+//             int node = q.peek().first;
+//             int prev = q.peek().second;
+//             q.remove();
+            
+//             for(int it : adj.get(node)){
+//                 if(vis[it] == 0){
+//                     q.add(new Node(it, node));
+//                     vis[it] = 1;
+//                 }
+                
+//                 else if(it != prev) return true;
+//             }
+//         }
+        
+//         return false;
+//     }
+// }
 
+
+// class Node{
+//     int first;
+//     int second;
+    
+//     public Node(int first, int second){
+//         this.first = first;
+//         this.second = second;
+//     }
+// }
+
+
+// using dfs
 class Solution {
     // Function to detect cycle in an undirected graph.
     public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
@@ -38,7 +91,7 @@ class Solution {
         int visited[] = new int[V+1]; 
         for(int i=0; i<V; i++){
             if(visited[i] == 0){
-                if(checkCycle(i, adj, visited)){
+                if(checkCycle(i, -1, adj, visited)){
                     return true;
                 }
             }
@@ -47,46 +100,20 @@ class Solution {
     }
     
     
-    public boolean checkCycle(int s, ArrayList<ArrayList<Integer>> adj, int[] vis){
-        Queue<Node> q = new LinkedList<>();
-        q.add(new Node(s, -1));
-        vis[s] = 1;
+    public boolean checkCycle(int node, int par, ArrayList<ArrayList<Integer>>  adj, int[] vis){
+        vis[node] = 1;
         
-        while(!q.isEmpty()){
-            int node = q.peek().first;
-            int prev = q.peek().second;
-            q.remove();
-            
-            for(int it : adj.get(node)){
-                if(vis[it] == 0){
-                    q.add(new Node(it, node));
-                    vis[it] = 1;
-                }
-                
-                else if(it != prev) return true;
+        for(int it:adj.get(node)){
+            if(vis[it] == 0){
+                if(checkCycle(it, node, adj, vis) == true) return true;
+            }else if(it != par){
+                return true;
             }
         }
-        
         return false;
     }
+
 }
-
-
-class Node{
-    int first;
-    int second;
-    
-    public Node(int first, int second){
-        this.first = first;
-        this.second = second;
-    }
-}
-
-
-
-
-
-
 
 
 
