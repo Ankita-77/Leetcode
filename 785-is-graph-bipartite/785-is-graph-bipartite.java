@@ -13,22 +13,39 @@ class Solution {
     }
     
     public boolean checkBipartite(int node, int[] color, int[][] graph){
-        Queue<Integer> q = new LinkedList<>();
-        color[node] = 1;
-        q.add(node);
+        if(color[node] == -1) color[node] = 1;
         
-        while(!q.isEmpty()){
-            int n = q.remove();
-            
-            for(int it : graph[n]){
-                if(color[it] == -1){
-                    color[it] = 1 - color[n];
-                    q.add(it);
-                }else if(color[it] == color[n]){
+        for(int it : graph[node]){
+            if(color[it] == -1){
+                color[it] = 1 - color[node];  
+                if(!checkBipartite(it, color, graph))
                     return false;
-                }
+            }else if(color[it] == color[node]){
+                return false;
             }
         }
+        
         return true;
     }
+    
+    // using bfs
+//     public boolean checkBipartite(int node, int[] color, int[][] graph){
+//         Queue<Integer> q = new LinkedList<>();
+//         color[node] = 1;
+//         q.add(node);
+        
+//         while(!q.isEmpty()){
+//             int n = q.remove();
+            
+//             for(int it : graph[n]){
+//                 if(color[it] == -1){
+//                     color[it] = 1 - color[n];
+//                     q.add(it);
+//                 }else if(color[it] == color[n]){
+//                     return false;
+//                 }
+//             }
+//         }
+//         return true;
+//     }
 }
