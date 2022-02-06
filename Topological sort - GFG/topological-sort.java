@@ -62,33 +62,106 @@ class Solution
     //Function to return list containing vertices in Topological order. 
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
-        // add your code here
-        Stack<Integer> st = new Stack<>();
-        int vis[] = new int[V];
-        for(int i=0; i<V; i++){
-            if(vis[i] == 0){
-                findTopo(i, vis, adj, st);
-            } 
-        }
-        
         int ans[] = new int[V];
-        int idx = 0;
-        while(!st.isEmpty()){
-            ans[idx] = st.pop();
-            idx++;
-        }
+        int indegree[] = new int[V];
         
-        return ans;
-    }
-    
-    static void findTopo(int node, int vis[], ArrayList<ArrayList<Integer>> adj, Stack<Integer> st){
-        vis[node]  = 1;
-        for(int it : adj.get(node)){
-            if(vis[it] == 0){
-                findTopo(it, vis, adj, st);
+        // find indegree
+        for(int i=0; i<V; i++){
+            for(int it : adj.get(i)){
+                indegree[it]++;
             }
         }
         
-        st.push(node);
+        Queue<Integer> q = new LinkedList<>();
+        
+        for(int i=0; i<V; i++){
+            if(indegree[i] == 0){
+                q.add(i);
+            }
+        }
+        
+        int idx = 0;
+        while(!q.isEmpty()){
+            int node = q.remove();
+            ans[idx++] = node;
+            
+            for(int it : adj.get(node)){
+                indegree[it]--;
+                if(indegree[it] == 0){
+                    q.add(it);
+                }
+            }
+        }
+        
+        return ans;
+        
+        // using dfs
+        // Stack<Integer> st = new Stack<>();
+        // int vis[] = new int[V];
+        // for(int i=0; i<V; i++){
+        //     if(vis[i] == 0){
+        //         findTopo(i, vis, adj, st);
+        //     } 
+        // }
+        
+        // int ans[] = new int[V];
+        // int idx = 0;
+        // while(!st.isEmpty()){
+        //     ans[idx] = st.pop();
+        //     idx++;
+        // }
+        
+        // return ans;
     }
+    
+    
+    
+    //  using dfs
+    // static void findTopo(int node, int vis[], ArrayList<ArrayList<Integer>> adj, Stack<Integer> st){
+    //     vis[node]  = 1;
+    //     for(int it : adj.get(node)){
+    //         if(vis[it] == 0){
+    //             findTopo(it, vis, adj, st);
+    //         }
+    //     }
+        
+    //     st.push(node);
+    // }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
