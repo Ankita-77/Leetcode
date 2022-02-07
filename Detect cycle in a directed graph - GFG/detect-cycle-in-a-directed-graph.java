@@ -33,33 +33,70 @@ class DriverClass {
 class Solution {
     // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
-        // code here
-        int vis[] = new int[V];
-        int dfsVis[] = new int[V];
+        // int ans[] = new int[V];
+        int indegree[] = new int[V];
+        
+        // find indegree
         for(int i=0; i<V; i++){
-            if(vis[i] == 0){
-                if(checkCycle(i, vis, dfsVis, adj) == true){
-                    return true;
+            for(int it : adj.get(i)){
+                indegree[it]++;
+            }
+        }
+        
+        Queue<Integer> q = new LinkedList<>();
+        
+        for(int i=0; i<V; i++){
+            if(indegree[i] == 0){
+                q.add(i);
+            }
+        }
+        
+        // int idx = 0
+        int cnt = 0;
+        while(!q.isEmpty()){
+            int node = q.remove();
+            // ans[idx++] = node;
+            cnt++;
+             
+            for(int it : adj.get(node)){
+                indegree[it]--;
+                if(indegree[it] == 0){
+                    q.add(it);
                 }
             }
         }
-        return false;
+        
+        if(cnt == V) return false;
+        return true;
+        
+        // dfs 
+        // int vis[] = new int[V];
+        // int dfsVis[] = new int[V];
+        // for(int i=0; i<V; i++){
+        //     if(vis[i] == 0){
+        //         if(checkCycle(i, vis, dfsVis, adj) == true){
+        //             return true;
+        //         }
+        //     }
+        // }
+        // return false;
     }
     
-    public boolean checkCycle(int node, int[] vis, int[] dfsVis, ArrayList<ArrayList<Integer>> adj){
-        vis[node] = 1;
-        dfsVis[node] = 1;
+    // using dfs
+    // public boolean checkCycle(int node, int[] vis, int[] dfsVis, ArrayList<ArrayList<Integer>> adj){
+    //     vis[node] = 1;
+    //     dfsVis[node] = 1;
         
-        for(int it : adj.get(node)){
-            if(vis[it] == 0){
-                if(checkCycle(it, vis, dfsVis, adj) == true){
-                    return true;
-                }
-            }else if(dfsVis[it] == 1){
-                return true;
-            }
-        }
-        dfsVis[node] = 0;
-        return false;
-    }
+    //     for(int it : adj.get(node)){
+    //         if(vis[it] == 0){
+    //             if(checkCycle(it, vis, dfsVis, adj) == true){
+    //                 return true;
+    //             }
+    //         }else if(dfsVis[it] == 1){
+    //             return true;
+    //         }
+    //     }
+    //     dfsVis[node] = 0;
+    //     return false;
+    // }
 }
