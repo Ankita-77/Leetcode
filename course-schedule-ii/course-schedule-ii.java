@@ -1,45 +1,34 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        List<Integer>[] graph = new ArrayList[numCourses];
-        buildGraph(graph, prerequisites, numCourses);
-        List<Integer> topologicalOrder = new ArrayList();
-        int[] visited = new int[numCourses];
-        for (int i = 0; i < numCourses; i++) {
-            if (visited[i] == 0) {
-                if (!isTopologicalSortPossible(graph, i, visited, topologicalOrder)) {
-                    return new int[]{};
+        if (numCourses == 0) return null;
+    // Convert graph presentation from edges to indegree of adjacent list.
+    int indegree[] = new int[numCourses], order[] = new int[numCourses], index = 0;
+    for (int i = 0; i < prerequisites.length; i++) // Indegree - how many prerequisites are needed.
+        indegree[prerequisites[i][0]]++;    
+
+    Queue<Integer> queue = new LinkedList<Integer>();
+    for (int i = 0; i < numCourses; i++) 
+        if (indegree[i] == 0) {
+            // Add the course to the order because it has no prerequisites.
+            order[index++] = i;
+            queue.offer(i);
+        }
+
+    // How many courses don't need prerequisites. 
+    while (!queue.isEmpty()) {
+        int prerequisite = queue.poll(); // Already finished this prerequisite course.
+        for (int i = 0; i < prerequisites.length; i++)  {
+            if (prerequisites[i][1] == prerequisite) {
+                indegree[prerequisites[i][0]]--; 
+                if (indegree[prerequisites[i][0]] == 0) {
+                    // If indegree is zero, then add the course to the order.
+                    order[index++] = prerequisites[i][0];
+                    queue.offer(prerequisites[i][0]);
                 }
-            }
+            } 
         }
-        int[] result = new int[topologicalOrder.size()];
-        int i = 0;
-        for (int num : topologicalOrder) {
-            result[i++] = num;
-        }
-        return result;
     }
-    
-    private boolean isTopologicalSortPossible(List<Integer>[] graph, int src, int[] visited, List<Integer> topologicalOrder) {
-        if (visited[src] != 0) {
-            return visited[src] == 1;
-        }
-        visited[src] = -1;
-        for (int i : graph[src]) {
-            if (!isTopologicalSortPossible(graph, i, visited, topologicalOrder)) {
-                return false;
-            }
-        }
-        visited[src] = 1;
-        topologicalOrder.add(src);
-        return true;
-    }
-    
-    private void buildGraph(List[] graph, int[][] prerequisites, int n) {
-        for (int i = 0; i < n; i++) {
-            graph[i] = new ArrayList();
-        }
-        for (int[] edge : prerequisites) {
-            graph[edge[0]].add(edge[1]);
-        }
+
+    return (index == numCourses) ? order : new int[0];
     }
 }
